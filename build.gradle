@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'idea'
+}
+
+group = 'com.epicGamecraft.dungeonCrawlDepths'
+version = '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    vertxVersion = '4.3.2'
+    junitJupiterEngineVersion = '5.8.2'
+}
+
+application {
+    mainClassName = 'com.epicGamecraft.dungeonCrawlDepths.CrawlServer'
+}
+
+def watchForChange = 'src/**/*'
+def doOnChange = './gradlew classes'
+
+dependencies {
+//    implementation "org.ple:immutable-collections"
+//    implementation "org.ple:observability-bridge"
+//    implementation "org.ple:jerbil"
+
+//  implementation 'io.vertx:vertx-stack:4.3.2'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
+    implementation "io.vertx:vertx-rx-java2:$vertxVersion"
+    implementation "io.vertx:vertx-micrometer-metrics:$vertxVersion"
+    implementation "io.vertx:vertx-mysql-client:$vertxVersion"
+    implementation "io.vertx:vertx-shell:$vertxVersion"
+    implementation "io.vertx:vertx-unit:$vertxVersion"
+    implementation "io.vertx:vertx-web:$vertxVersion"
+    implementation "io.vertx:vertx-service-proxy:$vertxVersion"
+    implementation "io.vertx:vertx-sockjs-service-proxy:$vertxVersion"
+    implementation "ch.qos.logback:logback-classic:1.2.11"
+    implementation "com.couchbase.client:java-client:3.3.1"
+    implementation "io.vertx:vertx-opentelemetry:$vertxVersion"
+    // implementation 'io.opentelemetry.instrumentation:opentelemetry-jaeger-exporter-starter:1.15.0-alpha'
+    implementation 'io.opentelemetry:opentelemetry-api:1.18.0'
+    implementation 'io.opentelemetry:opentelemetry-semconv:1.18.0-alpha'
+    implementation 'io.opentelemetry:opentelemetry-exporter-jaeger:1.18.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk:1.18.0'
+    implementation 'io.grpc:grpc-stub:1.49.0'
+    implementation 'io.grpc:grpc-protobuf:1.49.0'
+    implementation 'com.luhuiguo.grpc:grpc-netty-shaded:1.43.2.GM'
+//  implementation 'io.opentelemetry:bom:0.14.0'
+//  implementation 'org.onosproject:io_grpc_grpc_protobuf:2.5.6'
+//  implementation 'io.opentelemetry:opentelemetry-exporters-jaeger:0.9.1'
+//  implementation 'io.vertx:vertx-opentelemetry:$vertxVersion'
+//  implementation 'io.opentelemetry:opentelemetry-api:1.15.0'
+//  implementation 'io.opentelemetry:opentelemetry-sdk:1.15.0'
+//  implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.15.0'
+
+
+    testImplementation "io.vertx:vertx-junit5:$vertxVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterEngineVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+shadowJar {
+    classifier = 'fat'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
