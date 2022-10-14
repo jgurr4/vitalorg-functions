@@ -1,4 +1,4 @@
-package com.vitalorg.function.Verticles;
+package com.vitalorg.function.Verticles.V1;
 
 import io.vertx.core.AbstractVerticle;
 
