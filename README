@@ -1,0 +1,1 @@
+Follow the guidelines shown in amex. In this case we have a server which hosts many microservices in the form of individual functions, functions are deployed to any servers that need them, and the main running app is a microdose-vertx-server which has the parent observability objects and every other root object that must be global between functions.
