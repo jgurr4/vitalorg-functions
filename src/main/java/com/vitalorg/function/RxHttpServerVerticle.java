@@ -1,23 +1,18 @@
-package com.vitalorg.function.Verticles.V1;
+package com.vitalorg.function;
 
-import com.vitalorg.function.BusEvent;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.vertx.codegen.annotations.Nullable;
-import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.reactivex.core.AbstractVerticle;
-import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.eventbus.EventBus;
 import io.vertx.reactivex.core.http.HttpServer;
 import io.vertx.reactivex.core.http.HttpServerRequest;
 import io.vertx.reactivex.core.http.HttpServerResponse;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
-import io.vertx.reactivex.ext.web.Session;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import io.vertx.reactivex.ext.web.handler.SessionHandler;
 import io.vertx.reactivex.ext.web.handler.sockjs.SockJSHandler;
@@ -30,8 +25,24 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+// Usage:
+/*
+        HttpServerOptions serverOptions = new HttpServerOptions()
+                .setSsl(true)
+                .setKeyStoreOptions(new JksOptions()
+                .setPath("/path/to/store.jks)
+                .setPassword(storePass));
 
+ 		vertx.deployVerticle(new HttpServerVerticle(serverOptions, 8080));
+*/
 public class RxHttpServerVerticle extends AbstractVerticle {
+    private final HttpServerOptions serverOptions;
+    private final int port;
+
+    public RxHttpServerVerticle(HttpServerOptions serverOptions, int port) {
+        this.serverOptions = serverOptions;
+        this.port = port;
+    }
 
     @Override
     public Completable rxStart() {
@@ -48,7 +59,6 @@ public class RxHttpServerVerticle extends AbstractVerticle {
                 .setAddress(BusEvent.newGame.name());
         options.addInboundPermitted(inboundPermitted);
 
-        EventBus eb = vertx.eventBus();
         router.route().handler(ctx -> RouteStartHandlerVerticle.handle(ctx));
         router.get("/status").handler(ctx -> StatusHandlerVerticle.handle(ctx));
         router.route().handler(mySesh);
@@ -59,8 +69,7 @@ public class RxHttpServerVerticle extends AbstractVerticle {
         router.errorHandler(500, ctx -> ErrorHandlerVerticle.handle(ctx));
         router.route().handler(ctx -> RouteEndHandlerVerticle.handle(ctx));
 
-        final HttpServer server = vertx.createHttpServer(new HttpServerOptions());
-        final int port = 8080;
+        final HttpServer server = vertx.createHttpServer(serverOptions);
 
         final Single<HttpServer> rxListen = server
                 .requestHandler(router)
