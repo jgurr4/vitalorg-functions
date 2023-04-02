@@ -1,4 +1,4 @@
-package com.vitalorg.function.Verticles.V1;
+package com.vitalorg.function;
 
 import io.vertx.core.Handler;
 import io.vertx.reactivex.core.http.HttpServerResponse;
