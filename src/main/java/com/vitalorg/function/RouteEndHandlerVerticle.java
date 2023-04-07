@@ -1,10 +1,10 @@
 package com.vitalorg.function;
 
-import io.vertx.codegen.annotations.Nullable;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.vertx.core.Handler;
-import io.vertx.reactivex.core.http.HttpServerRequest;
-import io.vertx.reactivex.core.http.HttpServerResponse;
-import io.vertx.reactivex.ext.web.RoutingContext;
+import io.vertx.rxjava3.core.http.HttpServerRequest;
+import io.vertx.rxjava3.core.http.HttpServerResponse;
+import io.vertx.rxjava3.ext.web.RoutingContext;
 
 public class RouteEndHandlerVerticle {
     public static Handler<RoutingContext> handle(RoutingContext context) {
@@ -16,5 +16,6 @@ public class RouteEndHandlerVerticle {
             response.end();
         }
         int code = response.getStatusCode();
+        return null;
     }
 }

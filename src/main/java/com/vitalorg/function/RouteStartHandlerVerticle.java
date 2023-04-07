@@ -1,15 +1,16 @@
 package com.vitalorg.function;
 
-import io.vertx.codegen.annotations.Nullable;
-import io.vertx.core.Handler;
-import io.vertx.reactivex.core.AbstractVerticle;
-import io.vertx.reactivex.core.http.HttpServerRequest;
-import io.vertx.reactivex.ext.web.RoutingContext;
 
-public class RouteStartHandlerVerticle extends AbstractVerticle {
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.vertx.core.Handler;
+import io.vertx.rxjava3.core.http.HttpServerRequest;
+import io.vertx.rxjava3.ext.web.RoutingContext;
+
+public class RouteStartHandlerVerticle {
     public static Handler<RoutingContext> handle(RoutingContext context) {
         final HttpServerRequest request = context.request();
         @Nullable final String path = request.path();
-        context.next();
+        RouteStartHandlerVerticle.handle(context);
+        return null;
     }
 }

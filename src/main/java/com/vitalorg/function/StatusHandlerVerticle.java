@@ -1,8 +1,8 @@
 package com.vitalorg.function;
 
 import io.vertx.core.Handler;
-import io.vertx.reactivex.core.http.HttpServerResponse;
-import io.vertx.reactivex.ext.web.RoutingContext;
+import io.vertx.rxjava3.core.http.HttpServerResponse;
+import io.vertx.rxjava3.ext.web.RoutingContext;
 
 public class StatusHandlerVerticle {
     public static Handler<RoutingContext> handle(RoutingContext context) {
@@ -12,5 +12,6 @@ public class StatusHandlerVerticle {
         response.end("<html><body>All is well</body></html>");
         // we are not doing context.next() here because we don't want to create a session for every health check
         RouteEndHandlerVerticle.handle(context);
+        return null;
     }
 }
